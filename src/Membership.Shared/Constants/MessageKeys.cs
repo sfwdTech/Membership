@@ -24,4 +24,10 @@ public class MessageKeys
 
     public const string DuplicateEmailErrorMessage = nameof(DuplicateEmailErrorMessage);
     public const string LoginAlreadyAssociatedErrorMessage = nameof(LoginAlreadyAssociatedErrorMessage);
+
+    public const string RegisterUserExceptionMessage = nameof(RegisterUserExceptionMessage);
+    public const string LoginUserExceptionMessage = nameof(LoginUserExceptionMessage);
+    public const string RefreshTokenCompromisedExceptionMessage = nameof(RefreshTokenCompromisedExceptionMessage);
+    public const string RefreshTokenExpiredExceptionMessage = nameof(RefreshTokenExpiredExceptionMessage);
+    public const string RefreshTokenNotFoundExceptionMessage = nameof(RefreshTokenNotFoundExceptionMessage);
 }

@@ -26,11 +26,12 @@ internal class AccessTokenService : IAccessTokenService
         var secret = new SymmetricSecurityKey(key);
         var signingCredentials = new SigningCredentials(secret,
             SecurityAlgorithms.HmacSha256);
-        var tokenOptions = new JwtSecurityToken(issuer: _jwtOptions.ValidIssuer,
-                                                audience: _jwtOptions.ValidAudience,
-                                                claims: userClaims,
-                                                expires: DateTime.Now.AddMinutes(_jwtOptions.ExpireInMinutes),
-                                                signingCredentials: signingCredentials);
+        var tokenOptions = new JwtSecurityToken(
+            issuer: _jwtOptions.ValidIssuer,
+            audience: _jwtOptions.ValidAudience,
+            claims: userClaims,
+            expires: DateTime.Now.AddMinutes(_jwtOptions.ExpireInMinutes),
+            signingCredentials: signingCredentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 

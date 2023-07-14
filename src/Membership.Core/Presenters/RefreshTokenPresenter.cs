@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Membership.Core.Presenters;
+﻿namespace Membership.Core.Presenters;
 public class RefreshTokenPresenter : IRefreshTokenOutputPort
 {
     readonly IAccessTokenService _accessTokenService;

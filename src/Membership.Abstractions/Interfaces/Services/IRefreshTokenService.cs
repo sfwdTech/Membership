@@ -4,5 +4,5 @@ public interface IRefreshTokenService
     Task<string> GetRefreshTokenForAccessTokenAsync(string accessToken);
     Task DeleteRefreshTokenAsync(string refreshToken);
 
-    Task ThrowInUnableToRotateRefreshToken(string refreshToken, string accessToken);
+    Task ThrowIfUnableToRotateRefreshToken(string refreshToken, string accessToken);
 }

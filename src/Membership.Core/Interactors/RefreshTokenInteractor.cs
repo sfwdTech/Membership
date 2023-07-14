@@ -15,7 +15,7 @@ internal class RefreshTokenInteractor : IRefreshTokenInputPort
     public async Task RefreshTokenAsync(UserTokensDTO userTokens)
     {
         await _refreshTokenService
-            .ThrowInUnableToRotateRefreshToken(userTokens.RefreshToken,
+            .ThrowIfUnableToRotateRefreshToken(userTokens.RefreshToken,
             userTokens.AccessToken);
 
         await _refreshTokenOutputPort.HandleAccessTokenAsync(userTokens.AccessToken);
