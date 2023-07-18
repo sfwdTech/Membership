@@ -1,0 +1,15 @@
+global using Membership.Shared.DTOs;
+global using Microsoft.AspNetCore.Components.Authorization;
+global using Membership.Shared.Entities;
+global using System.Text.Json;
+global using Membership.Blazor.Interfaces;
+global using System.Net.Http.Headers;
+global using Membership.Blazor.HttpMessageHandlers;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.DependencyInjection.Extensions;
+global using Membership.Blazor.Options;
+global using Microsoft.Extensions.Options;
+global using System.Net.Http.Json;
+global using Membership.Blazor.Gateways;
+global using Microsoft.JSInterop;
+global using System.Text;
