@@ -1,0 +1,30 @@
+﻿<AuthorizeView>
+    <Authorizing>
+        <text>...</text>
+    </Authorizing>
+    <Authorized>
+        <div>
+            <span>
+                @GetUserInfo(context)
+            </span>
+            <a href="user/logout">Cerrar sesión</a>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <a href="user/register">Registrar</a>
+        <a href="user/login">Iniciar sesión</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code{
+    string GetUserInfo(AuthenticationState context)
+    {
+        string info = string.Empty;
+        if(context.User.Identity.IsAuthenticated)
+        {
+            info = context.User.FindFirst(c => c.Type == "FullName").Value;
+        }
+        return info;
+    }
+}

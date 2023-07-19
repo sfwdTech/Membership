@@ -1,0 +1,28 @@
+﻿<EditForm Model="_userCredentials" OnValidSubmit="Login">
+    <MembershipValidator Validator="UserCredentialsValidator"/>
+    <div class="form-field-column">
+        <label>@Localizer[MessageKeys.DisplayEmailMessage]</label>
+        <div>
+            <InputText @bind-Value="_userCredentials.Email" class="form-control" />
+            <ValidationMessage For="@(() => _userCredentials.Email)" />
+        </div>
+    </div>
+    <div class="form-field-column">
+        <label>@Localizer[MessageKeys.DisplayPasswordMessage]</label>
+        <div>
+            <InputText @bind-Value="_userCredentials.Password" class="form-control" type="password" />
+            <ValidationMessage For="@(() => _userCredentials.Password)" />
+        </div>
+    </div>
+    <div class="form-field-column">
+        <span class="validation-message">@_errorMessage</span>
+    </div>
+    <div class="form-field-column">
+        <button>
+            @Localizer[MessageKeys.DisplayLoginButtonMessage]
+        </button>
+    </div>
+
+</EditForm>
+
+

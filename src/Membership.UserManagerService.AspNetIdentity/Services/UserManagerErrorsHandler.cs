@@ -21,7 +21,7 @@ internal class UserManagerErrorsHandler
                     break;
                 case nameof(IdentityErrorDescriber.LoginAlreadyAssociated):
                     errorsList.Add(new MembershipError(
-                                   nameof(User.Email), _localizer[MessageKeys.LoginAlreadyAssociatedErrorMessage]));
+                         nameof(User.Email), _localizer[MessageKeys.LoginAlreadyAssociatedErrorMessage]));
                     break;
                 default:
                     errorsList.Add(new MembershipError(error.Code, error.Description));

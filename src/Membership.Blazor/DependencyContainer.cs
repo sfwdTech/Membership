@@ -1,6 +1,4 @@
-﻿using Membership.Blazor.Repositories;
-
-namespace Membership.Blazor;
+﻿namespace Membership.Blazor;
 public static class DependencyContainer
 {
     internal static IHttpClientBuilder AddExceptionDelegatingHandler(this IHttpClientBuilder builder)
@@ -34,6 +32,17 @@ public static class DependencyContainer
     public static IServiceCollection AddMembershipRepository(this IServiceCollection services)
     {
         services.AddScoped<ITokensRepository, TokensRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddMembershipBlazorServices(this IServiceCollection services,
+        Action<UserEndpointsOptions> userEndpointsOptionsSetter)
+    {
+        services.AddAuthorizationCore();
+        services.AddMembershipAuthenticationProvider();
+        services.AddMembershipGateways(userEndpointsOptionsSetter);
+        services.AddMembershipRepository();
 
         return services;
     }
