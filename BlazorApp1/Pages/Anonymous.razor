@@ -1,0 +1,13 @@
+﻿@page "/anonymous"
+@using BlazorApp1.Gateways;
+@inject WebApiClient _client
+
+@Message
+
+@code {
+    string Message;
+    protected override async Task OnInitializedAsync()
+    {
+        Message = await _client.GetAnonymousMessage();
+    }
+}

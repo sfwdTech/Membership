@@ -17,3 +17,4 @@ global using System.Text.Json;
 global using Membership.Blazor.AuthenticationStateProviders;
 global using Membership.Shared.Interfaces;
 global using Microsoft.AspNetCore.Components;
+global using Membership.Shared.Constants;

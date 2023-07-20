@@ -1,12 +1,13 @@
 ﻿namespace Membership.Core.Controllers;
-internal class LogoutController : ILogoutController
+internal class LogoutController 
 {
-    readonly ILogoutInputPort _logoutInputPort;
-
-    public LogoutController(ILogoutInputPort logoutInputPort) =>
-        _logoutInputPort = logoutInputPort;
-
-    public async Task LogoutAsycn(UserTokensDTO userTokens) =>
-        await _logoutInputPort.LogoutAsync(userTokens);
-    
+    public static void Map(WebApplication app)
+    {
+        app.MapPost(MembershipEndpoints.Logout, async (ILogoutInputPort inputPort,
+            UserTokensDTO userTokens) =>
+        {
+            await inputPort.LogoutAsync(userTokens);
+            return Results.Ok();
+        });
+    }
 }

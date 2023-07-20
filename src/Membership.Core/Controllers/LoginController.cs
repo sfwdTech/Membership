@@ -1,19 +1,14 @@
 ﻿namespace Membership.Core.Controllers;
-internal class LoginController : ILoginController
+internal class LoginController 
 {
-    readonly ILoginInputPort _loginInputPort;
-    readonly ILoginOutputPort _loginOutputPort;
-
-    public LoginController(ILoginInputPort loginInputPort, ILoginOutputPort loginOutputPort)
+    public static void Map(WebApplication app)
     {
-        _loginInputPort = loginInputPort;
-        _loginOutputPort = loginOutputPort;
-    }
-
-    public async Task<UserTokensDTO> LogingAsync(UserCredentialsDTO userCredentials)
-    {
-        await _loginInputPort.LoginAsync(userCredentials);
-
-        return _loginOutputPort.UserTokens;
+        app.MapPost(MembershipEndpoints.Login, async (HttpContext context, 
+            UserCredentialsDTO userCredentials, ILoginInputPort inputPort, ILoginOutputPort outputPort) =>
+        {
+            context.Response.Headers.Add("Cache-Control", "no-store");
+            await inputPort.LoginAsync(userCredentials);
+            return Results.Ok(outputPort.UserTokens);
+        });
     }
 }

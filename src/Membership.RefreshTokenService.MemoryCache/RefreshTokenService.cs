@@ -23,7 +23,7 @@ internal class RefreshTokenService : IRefreshTokenService
             DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshTokenExpireInMinutes));
 
         _memoryCache.Set(refreshToken, refreshTokenInfo,
-            DateTime.Now.AddMinutes(_jwtOptions.RefreshTokenExpireInMinutes + 5));
+            DateTime.Now.AddMinutes(_jwtOptions.RefreshTokenExpireInMinutes + 3));
 
         return Task.FromResult(refreshToken);
     }

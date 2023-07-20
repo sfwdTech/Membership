@@ -1,13 +1,10 @@
-﻿namespace Membership.Core.Controllers;
+﻿using MSMDotNet.CleanArch.Controllers;
+
+namespace Membership.Core.Controllers;
 public static class DependencyContainer
 {
-    public static IServiceCollection AddMembershipControllerServices(this IServiceCollection services)
+    public static WebApplication UseMembershipControllers(this WebApplication app)
     {
-        services.AddScoped<IRegisterController, RegisterController>();
-        services.AddScoped<ILoginController, LoginController>();
-        services.AddScoped<ILogoutController, LogoutController>();
-        services.AddScoped<IRefreshTokenController, RefreshTokenController>();
-
-        return services;
+        return app.AddControllersRouteEndpoint();
     }
 }

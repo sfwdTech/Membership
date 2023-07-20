@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Membership.Core.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 #endregion
 
+
+
 builder.Services.AddAuthorization();
 
 
@@ -98,7 +101,7 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMembershipEndpoints();
+app.UseMembershipControllers();
 
 app.MapGet("/authorizeduser", (HttpContext context, IUserService userService) =>
     Results.Ok($"Hello - {userService.FullName} - {context.User.Identity.Name}"))

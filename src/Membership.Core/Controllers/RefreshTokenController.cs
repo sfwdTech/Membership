@@ -1,18 +1,14 @@
 ﻿namespace Membership.Core.Controllers;
-internal class RefreshTokenController : IRefreshTokenController
+internal class RefreshTokenController 
 {
-    readonly IRefreshTokenInputPort _inputPort;
-    readonly IRefreshTokenOutputPort _outputPort;
-
-    public RefreshTokenController(IRefreshTokenInputPort inputPort, IRefreshTokenOutputPort outputPort)
+    public static void Map(WebApplication app)
     {
-        _inputPort = inputPort;
-        _outputPort = outputPort;
-    }
-
-    public async Task<UserTokensDTO> RefreshTokenAsync(UserTokensDTO userTokens)
-    {
-        await _inputPort.RefreshTokenAsync(userTokens);
-        return _outputPort.UserTokens;
+        app.MapPost(MembershipEndpoints.RefreshToken, async (HttpContext context, UserTokensDTO userTokens,
+            IRefreshTokenInputPort inputPort, IRefreshTokenOutputPort outPutPort) =>
+        {
+            context.Response.Headers.Add("Cache-Control", "no-store");
+            await inputPort.RefreshTokenAsync(userTokens);
+            return Results.Ok(outPutPort.UserTokens);
+        });
     }
 }

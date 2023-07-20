@@ -16,3 +16,7 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
 global using System.Text;
+global using Membership.Shared.Constants;
+global using Membership.Core.Interactors;
+global using Membership.Core.Presenters;
+global using Membership.Core.Services;
