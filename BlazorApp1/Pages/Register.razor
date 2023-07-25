@@ -1,8 +1,14 @@
 ﻿@page "/user/register"
 
-<div>
-    <h4>Crear Cuenta de Usuario</h4>
-    <RegisterComponent OnRegister="OnRegister"/>
+<div class="d-flex justify-content-evenly mt-5">
+    <div>
+        <h4 class="mb-4">Crear Cuenta de Usuario</h4>
+        <RegisterComponent OnRegister="OnRegister" />
+    </div>
+    <div>
+        <h4 class="mb-4">Registrarse con una cuenta de usuario de</h4>
+        <ExternalIDPsButton ScopeAction="Membership.Blazor.Enums.ScopeAction.Register" />
+    </div>
 </div>
 
 

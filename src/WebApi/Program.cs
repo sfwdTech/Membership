@@ -39,7 +39,11 @@ builder.Services.AddSwaggerGen(options =>
 
 #region Membership Configuration
 builder.Services.AddMembershipCoreServices(jwtOptions =>
-    builder.Configuration.GetSection(JwtOptions.SectionKey).Bind(jwtOptions))
+    builder.Configuration.GetSection(JwtOptions.SectionKey).Bind(jwtOptions),
+    appClientInfoOptions =>
+    builder.Configuration.GetSection(AppClientInfoOptions.SectionKey).Bind(appClientInfoOptions),
+    IDPClientInfoOptions =>
+    builder.Configuration.GetSection(IDPClientInfoOptions.SectionKey).Bind(IDPClientInfoOptions))
     .AddMembershipValidatorsServices()
     .AddMembershipMessageLocalizer()
     .AddRefreshTokenMemoryCacheServices()

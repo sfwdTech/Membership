@@ -1,6 +1,33 @@
 ﻿namespace Membership.ExceptionHandlerMiddleware;
-public class MembershipExceptionHandler
+public static class MembershipExceptionHandler
 {
+    static Dictionary<Type, Delegate> _exceptionHandlers = new();
+
+    //public static void AddExceptionHandlers(Assembly assembly)
+    //{
+    //    var handlerTypes = assembly.GetTypes()
+    //        .Where(t => t.Name.EndsWith("ExceptionHandler") &&
+    //         t.GetMethods().Any(m => m.Name == "Handle" && m.GetParameters().Length == 2));
+
+    //    _exceptionHandlers = new Dictionary<Type, Delegate>();
+    //    foreach (var item in handlerTypes)
+    //    {
+    //        // add _exceptionHandlers
+    //        var method = item.GetMethod("Handle");
+    //        var exceptionType = method.GetParameters()[0].ParameterType;
+    //        var exceptionParameter = Expression.Parameter(exceptionType, "ex");
+    //        var localizerParameter = Expression.Parameter(typeof(IMembershipMessageLocalizer), "localizer");
+    //        var bodyParameter = Expression.Call(null, method, exceptionParameter, localizerParameter);
+    //        var lambda = Expression.Lambda(bodyParameter, exceptionParameter, localizerParameter);
+    //        var Delegate = lambda.Compile();
+
+    //        _exceptionHandlers.Add(exceptionType, Delegate);
+    //    }
+    //}
+
+    public static void AddHandler(Type exceptionType, Delegate @delegate) =>
+        _exceptionHandlers.TryAdd(exceptionType, @delegate);
+
     public static async Task<bool> WriteResponse(HttpContext context, IMembershipMessageLocalizer localizer)
     {
         IExceptionHandlerFeature exceptionDetail = context.Features.Get<IExceptionHandlerFeature>();
@@ -11,57 +38,49 @@ public class MembershipExceptionHandler
 
         if (exceptionError != null)
         {
-            switch (exceptionError)
+            if (_exceptionHandlers.TryGetValue(exceptionError.GetType(), out Delegate handler))
             {
-                case RegisterUserException ex:
-                    await Write400BadRequestAsync(context,
-                        localizer[MessageKeys.RegisterUserExceptionMessage],
-                        nameof(RegisterUserException),
-                        ex.Errors);
-                    break;
-                case LoginUserException ex:
-                    await Write400BadRequestAsync(context,
-                          localizer[MessageKeys.LoginUserExceptionMessage],
-                             nameof(LoginUserException));
-                    break;
-                case RefreshTokenCompromisedException ex:
-                    await Write400BadRequestAsync(context,
-                           localizer[MessageKeys.RefreshTokenCompromisedExceptionMessage],
-                                 nameof(RefreshTokenCompromisedException));
-                    break;
-                case RefreshTokenExpiredException ex:
-                    await Write400BadRequestAsync(context,
-                          localizer[MessageKeys.RefreshTokenExpiredExceptionMessage],
-                               nameof(RefreshTokenExpiredException));
-                    break;
-                case RefreshTokenNotFoundException ex:
-                    await Write400BadRequestAsync(context,
-                           localizer[MessageKeys.RefreshTokenNotFoundExceptionMessage],
-                                 nameof(RefreshTokenNotFoundException));
-                    break;
-                default:
-                    isHandled = false;
-                    break;
+
+                await WriteProblemDetailsAsync(context,
+                    handler.DynamicInvoke(exceptionError, localizer) as ProblemDetails);
+            }
+            else
+            {
+                isHandled = false;
             }
         }
 
         return isHandled;
     }
 
-    static async Task Write400BadRequestAsync(HttpContext context,
+
+    public static ProblemDetails FromHttp400BadRequest(this ProblemDetails problem,
         string title, string instance, object extensions = null)
     {
-        ProblemDetails problemDetails = new()
-        {
-            Title = title,
-            Status = StatusCodes.Status400BadRequest,
-            Type = "https://datatacker.ietf.org/doc/html/rfc7231#section-6.5.1",
-            Instance = $"problemDetails/{instance}"
-        };
+        problem.Title = title;
+        problem.Status = StatusCodes.Status400BadRequest;
+        problem.Type = "https://datatacker.ietf.org/doc/html/rfc7231#section-6.5.1";
+        problem.Instance = $"problemDetails/{instance}";
+
         if (extensions != null)
-            problemDetails.Extensions.Add("errors", extensions);
-        await WriteProblemDetailsAsync(context, problemDetails);
+            problem.Extensions.Add("errors", extensions);
+        return problem;
     }
+
+    //static async Task Write400BadRequestAsync(HttpContext context,
+    //    string title, string instance, object extensions = null)
+    //{
+    //    ProblemDetails problemDetails = new()
+    //    {
+    //        Title = title,
+    //        Status = StatusCodes.Status400BadRequest,
+    //        Type = "https://datatacker.ietf.org/doc/html/rfc7231#section-6.5.1",
+    //        Instance = $"problemDetails/{instance}"
+    //    };
+    //    if (extensions != null)
+    //        problemDetails.Extensions.Add("errors", extensions);
+    //    await WriteProblemDetailsAsync(context, problemDetails);
+    //}
 
     static async Task WriteProblemDetailsAsync(HttpContext context,
         ProblemDetails problemDetails)

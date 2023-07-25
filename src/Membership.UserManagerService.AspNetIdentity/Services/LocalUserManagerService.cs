@@ -1,4 +1,6 @@
-﻿namespace Membership.UserManagerService.AspNetIdentity.Services;
+﻿using Membership.Shared.ValueObjects;
+
+namespace Membership.UserManagerService.AspNetIdentity.Services;
 internal partial class UserManagerService
 {
     public async Task<IEnumerable<MembershipError>> RegisterUserAsync(UserDTO userDto)

@@ -16,7 +16,7 @@ public abstract class AbstractValidator<T> : IValidator<T>
         foreach (var property in properties)
         {
             var propertyErrors = ValidateProperty(entity, property.Name);
-            if(propertyErrors.Any())
+            if (propertyErrors.Any())
                 errors.AddRange(propertyErrors);
         }
         return errors;
@@ -36,7 +36,7 @@ public abstract class AbstractValidator<T> : IValidator<T>
         bool result = true;
         if (!predicate())
         {
-            errors.Add(new (propertyName, _localizer[errorMessageKey]));
+            errors.Add(new(propertyName, _localizer[errorMessageKey]));
             result = false;
         }
         return result;

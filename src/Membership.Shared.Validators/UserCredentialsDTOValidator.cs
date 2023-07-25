@@ -1,4 +1,6 @@
-﻿namespace Membership.Shared.Validators;
+﻿using Membership.Shared.ValueObjects;
+
+namespace Membership.Shared.Validators;
 public class UserCredentialsDTOValidator : AbstractValidator<UserCredentialsDTO>
 {
     public UserCredentialsDTOValidator(IMembershipMessageLocalizer localizer) : base(localizer)

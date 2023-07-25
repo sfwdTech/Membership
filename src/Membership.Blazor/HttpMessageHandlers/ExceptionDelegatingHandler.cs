@@ -1,4 +1,6 @@
-﻿namespace Membership.Blazor.HttpMessageHandlers;
+﻿using Membership.Shared.ValueObjects;
+
+namespace Membership.Blazor.HttpMessageHandlers;
 internal class ExceptionDelegatingHandler : DelegatingHandler
 {
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

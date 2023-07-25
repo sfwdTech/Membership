@@ -1,4 +1,4 @@
-﻿namespace Membership.Shared.Entities;
+﻿namespace Membership.Shared.ValueObjects;
 public class MembershipError
 {
     public string Code { get; }

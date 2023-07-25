@@ -1,4 +1,7 @@
-﻿namespace Membership.Blazor;
+﻿using Membership.Blazor.Services;
+using Membership.Shared.OAuth;
+
+namespace Membership.Blazor;
 public static class DependencyContainer
 {
     internal static IHttpClientBuilder AddExceptionDelegatingHandler(this IHttpClientBuilder builder)
@@ -37,12 +40,19 @@ public static class DependencyContainer
     }
 
     public static IServiceCollection AddMembershipBlazorServices(this IServiceCollection services,
-        Action<UserEndpointsOptions> userEndpointsOptionsSetter)
+        Action<UserEndpointsOptions> userEndpointsOptionsSetter, Action<AppOptions> appOptionsSetter)
     {
         services.AddAuthorizationCore();
         services.AddMembershipAuthenticationProvider();
         services.AddMembershipGateways(userEndpointsOptionsSetter);
         services.AddMembershipRepository();
+        services.AddOAuthService();
+
+        services.AddScoped<IOAuthStateService, OAuthStateService>();
+        services.AddScoped<IAuthorizeService, AuthorizeService>();
+
+        services.AddOptions<AppOptions>()
+            .Configure(appOptionsSetter);
 
         return services;
     }

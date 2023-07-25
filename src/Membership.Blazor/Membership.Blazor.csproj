@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Membership.Shared.OAuth\Membership.Shared.OAuth.csproj" />
     <ProjectReference Include="..\Membership.Shared\Membership.Shared.csproj" />
   </ItemGroup>
 

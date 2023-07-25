@@ -1,4 +1,6 @@
-﻿namespace Membership.Abstractions.Exceptions;
+﻿using Membership.Shared.ValueObjects;
+
+namespace Membership.Abstractions.Exceptions;
 public class RegisterUserException : Exception
 {
     public IEnumerable<MembershipError> Errors { get; } 

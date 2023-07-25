@@ -1,4 +1,6 @@
-﻿namespace Membership.Abstractions.Interfaces.Services;
+﻿using Membership.Shared.ValueObjects;
+
+namespace Membership.Abstractions.Interfaces.Services;
 public interface IUserManagerService
 {
     Task<IEnumerable<MembershipError>> RegisterUserAsync(UserDTO user);
